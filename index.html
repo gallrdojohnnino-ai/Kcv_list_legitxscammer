@@ -1,279 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verified Traders List | @Diabloshd</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script>
-        // Tailwind Custom Settings
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1E40AF', // Dark Blue
-                        seller: '#10B981',  // Green
-                        middleman: '#3B82F6',// Blue
-                        scammer: '#EF4444',  // Red
-                        dark: '#111827',
-                        light: '#F9FAFB'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            }
-            .section-title {
-                position: relative;
-                display: inline-block;
-            }
-            .section-title::after {
-                content: '';
-                width: 50%;
-                height: 3px;
-                position: absolute;
-                bottom: -5px;
-                left: 0;
-            }
-            .seller-title::after { background-color: #10B981; }
-            .middleman-title::after { background-color: #3B82F6; }
-            .scammer-title::after { background-color: #EF4444; }
-            
-            /* Hide Admin Panel by default */
-            .admin-only {
-                display: none;
-            }
-            body.admin-view .admin-only {
-                display: block;
-            }
-        }
-    </style>
-    <script>
-        // Show Admin Panel via URL Parameter or Password
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('admin') && urlParams.get('admin') === '1') {
-                document.body.classList.add('admin-view');
-            }
-
-            // Admin Access Button
-            const showAdminBtn = document.createElement('button');
-            showAdminBtn.textContent = 'Admin Access';
-            showAdminBtn.className = 'fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 z-50';
-            document.body.appendChild(showAdminBtn);
-
-            showAdminBtn.addEventListener('click', function() {
-                const password = prompt('Enter Admin Password:');
-                if (password === 'diablo123') { // Update this password for security
-                    document.body.classList.add('admin-view');
-                    showAdminBtn.style.display = 'none';
-                } else {
-                    alert('Wrong Password!');
-                }
-            });
-        });
-    </script>
-</head>
-<body class="bg-gray-50 text-dark font-sans">
-
-    <!-- Header -->
-    <header class="bg-dark text-light py-6 shadow-lg">
-        <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-center items-center mb-2">
-                <i class="fas fa-shield-alt text-primary text-3xl mr-3"></i>
-                <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold">Verified Traders List</h1>
-            </div>
-            <p class="text-gray-300 text-lg">
-                <i class="fas fa-paper-plane text-primary mr-2"></i> @Diabloshd • Trusted Source for Safe Transactions
-            </p>
-        </div>
-    </header>
-
-    <!-- Warning Banner -->
-    <div class="bg-amber-50 border-l-4 border-amber-500 text-amber-700 p-4 mt-4">
-        <div class="container mx-auto px-4">
-            <p class="flex items-center">
-                <i class="fas fa-exclamation-triangle mr-2"></i> 
-                <strong>Important Note:</strong> This list is for informational purposes only. Always verify identities and transactions independently before proceeding.
-            </p>
-        </div>
+<!-- Manage Existing Entries -->
+<div class="mt-6 border-t pt-4">
+    <h3 class="text-lg font-semibold mb-3">Manage Existing Entries</h3>
+    
+    <!-- EDIT ENTRIES SECTION -->
+    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+        <h4 class="font-medium text-gray-700 mb-2">Edit Entry</h4>
+        <select id="edit-type" class="w-full p-2 mb-2 border rounded-lg">
+            <option value="">Select Type</option>
+            <option value="sellers">Verified Sellers</option>
+            <option value="middlemen">Verified Middlemen</option>
+            <option value="scammers">Scammers/Trollers</option>
+        </select>
+        <select id="edit-entry" class="w-full p-2 mb-2 border rounded-lg" disabled>
+            <option value="">Select Entry First</option>
+        </select>
+        <button id="edit-btn" class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800" disabled>
+            <i class="fas fa-edit mr-1"></i> Edit Selected Entry
+        </button>
     </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto mt-8 px-4 pb-16">
-
-        <!-- ========== ADMIN PANEL ========== -->
-        <section class="admin-only bg-gray-100 rounded-xl p-6 mb-8 border-2 border-primary">
-            <h2 class="text-2xl font-bold text-primary mb-4">
-                <i class="fas fa-cog mr-2"></i> ADMIN PANEL
-            </h2>
-
-            <!-- Add New Verified Seller Form -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="text-lg font-semibold text-seller mb-3">Add New Verified Seller</h3>
-                <input type="text" placeholder="Seller Name" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle (e.g., @SellerPH)" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Services/Games Offered" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Accepted Payment Methods" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-seller text-white px-4 py-2 rounded-lg hover:bg-seller/90">
-                    <i class="fas fa-plus mr-1"></i> Add Seller
-                </button>
-            </div>
-
-            <!-- Add New Verified Middleman Form -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="text-lg font-semibold text-middleman mb-3">Add New Verified Middleman</h3>
-                <input type="text" placeholder="Middleman Name" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Covered Games/Services" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Fee Details" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-middleman text-white px-4 py-2 rounded-lg hover:bg-middleman/90">
-                    <i class="fas fa-plus mr-1"></i> Add Middleman
-                </button>
-            </div>
-
-            <!-- Add New Scammer/Troller Form -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="text-lg font-semibold text-scammer mb-3">Add New Scammer/Troller</h3>
-                <input type="text" placeholder="Scammer Name/Alias" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Other Known Aliases" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Reason for Report" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-scammer text-white px-4 py-2 rounded-lg hover:bg-scammer/90">
-                    <i class="fas fa-plus mr-1"></i> Add Scammer
-                </button>
-            </div>
-
-            <!-- Manage Existing Entries -->
-            <div class="mt-6">
-                <h3 class="text-lg font-semibold mb-3">Manage Existing Entries</h3>
-                <button class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 mr-2">
-                    <i class="fas fa-edit mr-1"></i> Edit Entries
-                </button>
-                <button class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">
-                    <i class="fas fa-trash mr-1"></i> Delete Entries
-                </button>
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: VERIFIED SELLERS ========== -->
-        <section class="mb-12 seller-section">
-            <h2 class="section-title seller-title text-2xl font-bold mb-6">
-                <i class="fas fa-store text-seller mr-2"></i> Verified Sellers
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Default Seller Card -->
-                <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-seller">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold">LuckyGamer PH</h3>
-                        <span class="flex items-center text-sm bg-green-100 text-seller px-3 py-1 rounded-full">
-                            <span class="w-2 h-2 bg-seller rounded-full mr-1 animate-pulse"></span> Online
-                        </span>
-                    </div>
-                    <p class="text-gray-600 mb-3">
-                        <i class="fas fa-paperclip text-gray-400 mr-2"></i> Telegram: <a href="https://t.me/LuckyGamerPH" class="text-primary hover:underline">@LuckyGamerPH</a>
-                    </p>
-                    <p class="text-gray-600 mb-3">
-                        <i class="fas fa-gamepad text-gray-400 mr-2"></i> Services: CODM, MLBB, PUBG Accounts
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-credit-card text-gray-400 mr-2"></i> Payments: GCash, PayMaya, Bank Transfer
-                    </p>
-                    <a href="https://t.me/LuckyGamerPH" class="block w-full text-center bg-seller hover:bg-seller/90 text-white font-medium py-2 rounded-lg transition-colors">
-                        <i class="fas fa-comments mr-1"></i> Contact Seller
-                    </a>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: VERIFIED MIDDLEMEN ========== -->
-        <section class="mb-12 middleman-section">
-            <h2 class="section-title middleman-title text-2xl font-bold mb-6">
-                <i class="fas fa-handshake-alt text-middleman mr-2"></i> Verified Middlemen
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Default Middleman Card -->
-                <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-middleman">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold">TrustLink MM</h3>
-                        <span class="flex items-center text-sm bg-green-100 text-middleman px-3 py-1 rounded-full">
-                            <span class="w-2 h-2 bg-middleman rounded-full mr-1 animate-pulse"></span> Online
-                        </span>
-                    </div>
-                    <p class="text-gray-600 mb-3">
-                        <i class="fas fa-paperclip text-gray-400 mr-2"></i> Telegram: <a href="https://t.me/TrustLinkMM" class="text-primary hover:underline">@TrustLinkMM</a>
-                    </p>
-                    <p class="text-gray-600 mb-3">
-                        <i class="fas fa-gamepad text-gray-400 mr-2"></i> Covers: All Mobile/PC Games
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-tag text-gray-400 mr-2"></i> Fee: 5-10% of Transaction Value
-                    </p>
-                    <a href="https://t.me/TrustLinkMM" class="block w-full text-center bg-middleman hover:bg-middleman/90 text-white font-medium py-2 rounded-lg transition-colors">
-                        <i class="fas fa-comments mr-1"></i> Contact Middleman
-                    </a>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: SCAMMERS & TROLLERS ========== -->
-        <section class="scammer-section">
-            <h2 class="section-title scammer-title text-2xl font-bold mb-6">
-                <i class="fas fa-user-slash text-scammer mr-2"></i> Scammers & Trollers
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Default Scammer Card -->
-                <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-scammer">
-                    <h3 class="text-xl font-bold text-scammer mb-3">FakeSeller_XYZ</h3>
-                    <p class="text-gray-600 mb-2">
-                        <i class="fas fa-paperclip text-gray-400 mr-2"></i> Telegram: <span class="text-scammer">@FakeSeller_XYZ</span> (Blocked)
-                    </p>
-                    <p class="text-gray-600 mb-2">
-                        <i class="fas fa-user-secret text-gray-400 mr-2"></i> Aliases: SellerPro123, GameDealsPH
-                    </p>
-                    <p class="text-gray-600 mb-2">
-                        <i class="fas fa-exclamation-circle text-gray-400 mr-2"></i> Reported For: Takes payment but never delivers accounts/skins
-                    </p>
-                    <p class="text-gray-600">
-                        <i class="fas fa-calendar-alt text-gray-400 mr-2"></i> Last Report: November 2025
-                    </p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-gray-300 py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">© 2025/2026 @Diabloshd • All Rights Reserved</p>
-            <p class="text-sm text-gray-400">
-                <i class="fas fa-info-circle mr-1"></i> Always practice caution when making online transactions
-            </p>
-            <div class="mt-4">
-                <a href="https://t.me/Diabloshd" class="text-primary hover:text-white transition-colors">
-                    <i class="fas fa-paper-plane text-xl"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Link to admin-script.js -->
-    <script src="admin-script.js"></script>
-</body>
-</html>
+    <!-- DELETE ENTRIES SECTION -->
+    <div class="p-3 bg-gray-50 rounded-lg">
+        <h4 class="font-medium text-gray-700 mb-2">Delete Entry</h4>
+        <select id="delete-type" class="w-full p-2 mb-2 border rounded-lg">
+            <option value="">Select Type</option>
+            <option value="sellers">Verified Sellers</option>
+            <option value="middlemen">Verified Middlemen</option>
+            <option value="scammers">Scammers/Trollers</option>
+        </select>
+        <select id="delete-entry" class="w-full p-2 mb-2 border rounded-lg" disabled>
+            <option value="">Select Entry First</option>
+        </select>
+        <button id="delete-btn" class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800" disabled>
+            <i class="fas fa-trash mr-1"></i> Delete Selected Entry
+        </button>
+    </div>
+</div>
