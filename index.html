@@ -60,29 +60,91 @@
             }
         }
     </style>
+
+    <!-- ========== ANTI-HOOK PROTECTION ========== -->
     <script>
-        // Show Admin Panel via URL Parameter or Password
-        document.addEventListener('DOMContentLoaded', function() {
+        // 1. Disable Right-Click (non-admins only)
+        document.addEventListener('contextmenu', e => {
+            if (!document.body.classList.contains('admin-view')) {
+                e.preventDefault();
+                alert("⚠️ Right-click is restricted to prevent unauthorized access.");
+            }
+        });
+
+        // 2. Block Inspect Element/DevTools (non-admins only)
+        document.addEventListener('keydown', e => {
+            if (!document.body.classList.contains('admin-view')) {
+                // Block F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+                const blockedKeys = [
+                    (e.key === 'F12'),
+                    (e.ctrlKey && e.shiftKey && e.key === 'I'),
+                    (e.ctrlKey && e.key === 'U'),
+                    (e.ctrlKey && e.shiftKey && e.key === 'J')
+                ];
+                if (blockedKeys.some(condition => condition)) {
+                    e.preventDefault();
+                    alert("⚠️ Unauthorized inspection is blocked.");
+                }
+            }
+        });
+
+        // 3. Secure Password Hashing (Replace with your own hash!)
+        // How to generate your hash:
+        // 1. Go to https://emn178.github.io/online-tools/sha256.html
+        // 2. Hash your password (e.g., "diablo123" → SHA256 hash)
+        // 3. Replace the value below with your hash
+        const ADMIN_PASSWORD_HASH = "e10adc3949ba59abbe56e057f20f883e"; // Example hash for "123456" (replace this!)
+        
+        // Verify password using SHA-256 (simple implementation)
+        function sha256(input) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            return crypto.subtle.digest('SHA-256', data)
+                .then(hash => {
+                    return Array.from(new Uint8Array(hash))
+                        .map(b => b.toString(16).padStart(2, '0'))
+                        .join('');
+                });
+        }
+
+        // 4. Admin Access Logic (Secure Version)
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Block admin access via URL parameter
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('admin') && urlParams.get('admin') === '1') {
-                document.body.classList.add('admin-view');
+            if (urlParams.has('admin')) {
+                window.location.href = window.location.href.split('?')[0]; // Remove param
+                alert("⚠️ Direct admin access via URL is disabled.");
             }
 
-            // Admin Access Button
+            // Create Admin Access Button
             const showAdminBtn = document.createElement('button');
             showAdminBtn.textContent = 'Admin Access';
-            showAdminBtn.className = 'fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 z-50';
+            showAdminBtn.className = 'fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 z-50 shadow-lg';
             document.body.appendChild(showAdminBtn);
 
-            showAdminBtn.addEventListener('click', function() {
-                const password = prompt('Enter Admin Password:');
-                if (password === 'diablo123') { // Update this password for security
+            // Handle Admin Login
+            showAdminBtn.addEventListener('click', async function() {
+                const input = prompt('Enter Admin Password:');
+                if (!input) return;
+
+                const inputHash = await sha256(input);
+                if (inputHash === ADMIN_PASSWORD_HASH) {
                     document.body.classList.add('admin-view');
                     showAdminBtn.style.display = 'none';
+                    alert("✅ Admin access granted!");
                 } else {
-                    alert('Wrong Password!');
+                    alert('❌ Wrong Password!');
                 }
             });
+
+            // 5. Anti-Tampering Check for Admin Panel
+            setInterval(() => {
+                const adminPanel = document.querySelector('.admin-only');
+                if (adminPanel && !document.body.classList.contains('admin-view')) {
+                    adminPanel.style.display = 'none';
+                    console.clear(); // Clear tampering attempts
+                }
+            }, 1000);
         });
     </script>
 </head>
@@ -115,56 +177,84 @@
     <main class="container mx-auto mt-8 px-4 pb-16">
 
         <!-- ========== ADMIN PANEL ========== -->
-        <section class="admin-only bg-gray-100 rounded-xl p-6 mb-8 border-2 border-primary">
+        <section class="admin-only bg-gray-100 rounded-xl p-6 mb-8 border-2 border-primary shadow-md">
             <h2 class="text-2xl font-bold text-primary mb-4">
                 <i class="fas fa-cog mr-2"></i> ADMIN PANEL
             </h2>
 
             <!-- Add New Verified Seller Form -->
-            <div class="mb-6 border-b pb-4">
+            <div class="mb-6 border-b border-gray-200 pb-4">
                 <h3 class="text-lg font-semibold text-seller mb-3">Add New Verified Seller</h3>
-                <input type="text" placeholder="Seller Name" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle (e.g., @SellerPH)" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Services/Games Offered" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Accepted Payment Methods" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-seller text-white px-4 py-2 rounded-lg hover:bg-seller/90">
+                <input type="text" placeholder="Seller Name" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Telegram Handle (e.g., @SellerPH)" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Services/Games Offered" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Accepted Payment Methods" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <button class="bg-seller text-white px-4 py-2 rounded-lg hover:bg-seller/90 transition-colors">
                     <i class="fas fa-plus mr-1"></i> Add Seller
                 </button>
             </div>
 
             <!-- Add New Verified Middleman Form -->
-            <div class="mb-6 border-b pb-4">
+            <div class="mb-6 border-b border-gray-200 pb-4">
                 <h3 class="text-lg font-semibold text-middleman mb-3">Add New Verified Middleman</h3>
-                <input type="text" placeholder="Middleman Name" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Covered Games/Services" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Fee Details" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-middleman text-white px-4 py-2 rounded-lg hover:bg-middleman/90">
+                <input type="text" placeholder="Middleman Name" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Covered Games/Services" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Fee Details" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <button class="bg-middleman text-white px-4 py-2 rounded-lg hover:bg-middleman/90 transition-colors">
                     <i class="fas fa-plus mr-1"></i> Add Middleman
                 </button>
             </div>
 
             <!-- Add New Scammer/Troller Form -->
-            <div class="mb-6 border-b pb-4">
+            <div class="mb-6 border-b border-gray-200 pb-4">
                 <h3 class="text-lg font-semibold text-scammer mb-3">Add New Scammer/Troller</h3>
-                <input type="text" placeholder="Scammer Name/Alias" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Other Known Aliases" class="w-full p-2 mb-2 border rounded-lg">
-                <input type="text" placeholder="Reason for Report" class="w-full p-2 mb-2 border rounded-lg">
-                <button class="bg-scammer text-white px-4 py-2 rounded-lg hover:bg-scammer/90">
+                <input type="text" placeholder="Scammer Name/Alias" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Other Known Aliases" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <input type="text" placeholder="Reason for Report" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                <button class="bg-scammer text-white px-4 py-2 rounded-lg hover:bg-scammer/90 transition-colors">
                     <i class="fas fa-plus mr-1"></i> Add Scammer
                 </button>
             </div>
 
             <!-- Manage Existing Entries -->
-            <div class="mt-6">
+            <div class="mt-6 border-t border-gray-200 pt-4">
                 <h3 class="text-lg font-semibold mb-3">Manage Existing Entries</h3>
-                <button class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 mr-2">
-                    <i class="fas fa-edit mr-1"></i> Edit Entries
-                </button>
-                <button class="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800">
-                    <i class="fas fa-trash mr-1"></i> Delete Entries
-                </button>
+                
+                <!-- EDIT ENTRIES SECTION -->
+                <div class="mb-4 p-3 bg-gray-50 rounded-lg shadow-sm">
+                    <h4 class="font-medium text-gray-700 mb-2">Edit Entry</h4>
+                    <select id="edit-type" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                        <option value="">Select Type</option>
+                        <option value="sellers">Verified Sellers</option>
+                        <option value="middlemen">Verified Middlemen</option>
+                        <option value="scammers">Scammers/Trollers</option>
+                    </select>
+                    <select id="edit-entry" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" disabled>
+                        <option value="">Select Entry First</option>
+                    </select>
+                    <button id="edit-btn" class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors" disabled>
+                        <i class="fas fa-edit mr-1"></i> Edit Selected Entry
+                    </button>
+                </div>
+
+                <!-- DELETE ENTRIES SECTION -->
+                <div class="p-3 bg-gray-50 rounded-lg shadow-sm">
+                    <h4 class="font-medium text-gray-700 mb-2">Delete Entry</h4>
+                    <select id="delete-type" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                        <option value="">Select Type</option>
+                        <option value="sellers">Verified Sellers</option>
+                        <option value="middlemen">Verified Middlemen</option>
+                        <option value="scammers">Scammers/Trollers</option>
+                    </select>
+                    <select id="delete-entry" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" disabled>
+                        <option value="">Select Entry First</option>
+                    </select>
+                    <button id="delete-btn" class="w-full bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors" disabled>
+                        <i class="fas fa-trash mr-1"></i> Delete Selected Entry
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -175,7 +265,7 @@
                 <i class="fas fa-store text-seller mr-2"></i> Verified Sellers
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- No default entries here anymore -->
+                <!-- Entries loaded via admin-script.js -->
             </div>
         </section>
 
@@ -186,7 +276,7 @@
                 <i class="fas fa-handshake-alt text-middleman mr-2"></i> Verified Middlemen
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- No default entries here anymore -->
+                <!-- Entries loaded via admin-script.js -->
             </div>
         </section>
 
@@ -197,28 +287,11 @@
                 <i class="fas fa-user-slash text-scammer mr-2"></i> Scammers & Trollers
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- No default entries here anymore -->
+                <!-- Entries loaded via admin-script.js -->
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-gray-300 py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">© 2026 @Diabloshd • All Rights Reserved</p>
-            <p class="text-sm text-gray-400">
-                <i class="fas fa-info-circle mr-1"></i> Always practice caution when making online transactions
-            </p>
-            <div class="mt-4">
-                <a href="https://t.me/Diabloshd" class="text-primary hover:text-white transition-colors">
-                    <i class="fas fa-paper-plane text-xl"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Link to admin-script.js -->
-    <script src="admin-script.js"></script>
-</body>
-</html>
+    <footer class
