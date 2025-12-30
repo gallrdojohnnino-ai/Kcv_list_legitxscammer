@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verified Traders List | @Diabloshd</title>
+    <title>DiabloHD | Trusted Traders List</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
-        // Tailwind Custom Settings
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1E40AF', // Dark Blue
-                        seller: '#10B981',  // Green
-                        middleman: '#3B82F6',// Blue
-                        scammer: '#EF4444',  // Red
-                        dark: '#111827',
-                        light: '#F9FAFB'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif']
+                        safe: '#22c55e',
+                        trusted: '#3b82f6',
+                        danger: '#ef4444',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
                     }
                 }
             }
@@ -28,270 +23,94 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            .card-hover {
-                transition: all 0.3s ease;
+            .card-glow {
+                transition: all 0.4s ease;
             }
-            .card-hover:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            .card-glow:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 30px -8px rgba(0,0,0,0.15);
             }
-            .section-title {
-                position: relative;
-                display: inline-block;
-            }
-            .section-title::after {
-                content: '';
-                width: 50%;
-                height: 3px;
-                position: absolute;
-                bottom: -5px;
-                left: 0;
-            }
-            .seller-title::after { background-color: #10B981; }
-            .middleman-title::after { background-color: #3B82F6; }
-            .scammer-title::after { background-color: #EF4444; }
-            
-            /* Hide Admin Panel by default */
-            .admin-only {
-                display: none;
-            }
-            body.admin-view .admin-only {
-                display: block;
-            }
+            .badge-safe {box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);}
+            .badge-trusted {box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);}
+            .badge-danger {box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);}
+            .admin-panel {display: none !important;}
+            body.auth .admin-panel {display: block !important;}
         }
     </style>
 
-    <!-- ========== ANTI-HOOK PROTECTION ========== -->
+    <!-- ========== ENCRYPTED SECURITY CORE ========== -->
     <script>
-        // 1. Disable Right-Click (non-admins only)
-        document.addEventListener('contextmenu', e => {
-            if (!document.body.classList.contains('admin-view')) {
-                e.preventDefault();
-                alert("⚠️ Right-click is restricted to prevent unauthorized access.");
-            }
-        });
+        (function(D,W,C){
+            // Encrypted strings & logic
+            var _0x1f8a=[
+                "\x63\x6f\x6e\x74\x65\x78\x74\x6d\x65\x6e\x75","\x70\x72\x65\x76\x65\x6e\x74","\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6e\x69\x65\x64\x21\x20\x50\x6c\x65\x61\x73\x65\x20\x64\x6f\x20\x6e\x6f\x74\x20\x72\x69\x67\x68\x74\x2d\x63\x6c\x69\x63\x6b\x20\x6f\x72\x20\x63\x6f\x70\x79\x2d\x70\x61\x73\x74\x65\x2e","\x6b\x65\x79\x64\x6f\x77\x6e","\x46\x31\x32","\x49","\x55","\x4a","\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6e\x69\x65\x64\x21\x20\x44\x65\x76\x65\x6c\x6f\x70\x65\x72\x20\x54\x6f\x6f\x6c\x73\x20\x61\x72\x65\x20\x42\x6c\x6f\x63\x6b\x65\x64\x2e","\x61\x64\x6d\x69\x6e","\x77\x69\x6e\x64\x6f\x77\x2e\x6c\x6f\x63\x61\x74\x69\x6f\x6e\x2e\x68\x72\x65\x66","\x73\x70\x6c\x69\x74","\x64\x69\x73\x61\x62\x6c\x65","\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6e\x69\x65\x64\x21\x20\x55\x52\x4c\x2d\x62\x61\x73\x65\x64\x20\x41\x63\x63\x65\x73\x73\x20\x49\x73\x20\x42\x6c\x6f\x63\x6b\x65\x64\x2e","\x41\x64\x6d\x69\x6e\x20\x41\x63\x63\x65\x73\x73","\x66\x69\x78\x65\x64\x20\x74\x6f\x70\x2d\x34\x20\x72\x69\x67\x68\x74\x2d\x34\x20\x62\x67\x2d\x64\x61\x72\x6b\x20\x74\x65\x78\x74\x2d\x77\x68\x69\x74\x65\x20\x70\x78\x2d\x34\x20\x70\x79\x2d\x32\x20\x72\x6f\x75\x6e\x64\x65\x64\x2d\x6c\x67\x20\x68\x6f\x76\x65\x72\x3a\x62\x67\x2d\x64\x61\x72\x6b\x2f\x39\x30\x20\x73\x68\x61\x64\x6f\x77\x2d\x6c\x67","\x62\x6f\x64\x79","\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64","\x45\x6e\x74\x65\x72\x20\x41\x64\x6d\x69\x6e\x20\x50\x61\x73\x73\x77\x6f\x72\x64\x3a","\x57\x72\x6f\x6e\x67\x20\x50\x61\x73\x73\x77\x6f\x72\x64\x21","\x27\x27\x27YOUR_SHA256_HASH_HERE\x27\x27\x27",// REPLACE THIS WITH YOUR HASH
+            "\x54\x65\x78\x74\x45\x6e\x63\x6f\x64\x65\x72","\x65\x6e\x63\x6f\x64\x65","\x53\x48\x41\x2d\x32\x35\x36","\x64\x69\x67\x65\x73\x74","\x41\x72\x72\x61\x79\x46\x72\x6f\x6d","\x55\x69\x6e\x74\x38\x41\x72\x72\x61\x79","\x6d\x61\x70","\x74\x6f\x53\x74\x72\x69\x6e\x67","\x70\x61\x64\x53\x74\x61\x72\x74\x28\x32\x2c\x27\x30\x27\x29","\x6a\x6f\x69\x6e","\u2705\x20\x41\x64\x6d\x69\x6e\x20\x41\x63\x63\x65\x73\x73\x20\x47\x72\x61\x6e\x74\x65\x64\x21","\u274c\x20\x49\x6e\x76\x61\x6c\x69\x64\x20\x50\x61\x73\x73\x77\x6f\x72\x64\x21","\x6c\x6f\x63\x61\x74\x69\x6f\x6e\x2e\x68\x72\x65\x66","\x61\x64\x6d\x69\x6e\x2d\x70\x61\x6e\x65\x6c","\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72","\x64\x6f\x63\x75\x6d\x65\x6e\x74","\x62\x6f\x64\x79\x43\x6c\x61\x73\x73\x4c\x69\x73\x74","\x63\x6f\x6e\x74\x61\x69\x6e\x73","\x61\x75\x74\x68","\x73\x74\x79\x6c\x65\x2e\x64\x69\x73\x70\x6c\x61\x79","\x27\x6e\x6f\x6e\x65\x27","\x63\x6f\x6e\x73\x6f\x6c\x65\x2e\x63\x6c\x65\x61\x72","\x73\x65\x74\x49\x6e\x74\x65\x72\x76\x61\x6c","\x35\x30\x30"
+            ];
 
-        // 2. Block Inspect Element/DevTools (non-admins only)
-        document.addEventListener('keydown', e => {
-            if (!document.body.classList.contains('admin-view')) {
-                // Block F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
-                const blockedKeys = [
-                    (e.key === 'F12'),
-                    (e.ctrlKey && e.shiftKey && e.key === 'I'),
-                    (e.ctrlKey && e.key === 'U'),
-                    (e.ctrlKey && e.shiftKey && e.key === 'J')
-                ];
-                if (blockedKeys.some(condition => condition)) {
-                    e.preventDefault();
-                    alert("⚠️ Unauthorized inspection is blocked.");
-                }
-            }
-        });
+            // 1. Block Right-Click + Copy/Paste
+            D[_0x1f8a[0]](_0x1f8a[1],function(e){
+                if(!D[_0x1f8a[15]][_0x1f8a[35]](_0x1f8a[36])){e[_0x1f8a[2]]();alert(_0x1f8a[3]);}
+            });
+            D[_0x1f8a[0]]('copy',function(e){if(!D[_0x1f8a[15]][_0x1f8a[35]](_0x1f8a[36]))e[_0x1f8a[2]]();});
+            D[_0x1f8a[0]]('cut',function(e){if(!D[_0x1f8a[15]][_0x1f8a[35]](_0x1f8a[36]))e[_0x1f8a[2]]();});
 
-        // 3. Secure Password Hashing (Replace with your own hash!)
-        // How to generate your hash:
-        // 1. Go to https://emn178.github.io/online-tools/sha256.html
-        // 2. Hash your password (e.g., "diablo123" → SHA256 hash)
-        // 3. Replace the value below with your hash
-        const ADMIN_PASSWORD_HASH = "e10adc3949ba59abbe56e057f20f883e"; // Example hash for "123456" (replace this!)
-        
-        // Verify password using SHA-256 (simple implementation)
-        function sha256(input) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(input);
-            return crypto.subtle.digest('SHA-256', data)
-                .then(hash => {
-                    return Array.from(new Uint8Array(hash))
-                        .map(b => b.toString(16).padStart(2, '0'))
-                        .join('');
-                });
-        }
-
-        // 4. Admin Access Logic (Secure Version)
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Block admin access via URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('admin')) {
-                window.location.href = window.location.href.split('?')[0]; // Remove param
-                alert("⚠️ Direct admin access via URL is disabled.");
-            }
-
-            // Create Admin Access Button
-            const showAdminBtn = document.createElement('button');
-            showAdminBtn.textContent = 'Admin Access';
-            showAdminBtn.className = 'fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 z-50 shadow-lg';
-            document.body.appendChild(showAdminBtn);
-
-            // Handle Admin Login
-            showAdminBtn.addEventListener('click', async function() {
-                const input = prompt('Enter Admin Password:');
-                if (!input) return;
-
-                const inputHash = await sha256(input);
-                if (inputHash === ADMIN_PASSWORD_HASH) {
-                    document.body.classList.add('admin-view');
-                    showAdminBtn.style.display = 'none';
-                    alert("✅ Admin access granted!");
-                } else {
-                    alert('❌ Wrong Password!');
+            // 2. Block DevTools Access
+            D[_0x1f8a[0]](_0x1f8a[3],function(e){
+                if(!D[_0x1f8a[15]][_0x1f8a[35]](_0x1f8a[36])){
+                    var k=e[_0x1f8a[4]]===_0x1f8a[5]||(e.ctrlKey&&e.shiftKey&&e[_0x1f8a[4]]===_0x1f8a[6])||(e.ctrlKey&&e[_0x1f8a[4]]===_0x1f8a[7])||(e.ctrlKey&&e.shiftKey&&e[_0x1f8a[4]]===_0x1f8a[8]);
+                    if(k){e[_0x1f8a[2]]();alert(_0x1f8a[9]);}
                 }
             });
 
-            // 5. Anti-Tampering Check for Admin Panel
-            setInterval(() => {
-                const adminPanel = document.querySelector('.admin-only');
-                if (adminPanel && !document.body.classList.contains('admin-view')) {
-                    adminPanel.style.display = 'none';
-                    console.clear(); // Clear tampering attempts
+            // 3. Block URL-Based Admin Access
+            var u=new URLSearchParams(W[_0x1f8a[10]]);
+            if(u[_0x1f8a[11]](_0x1f8a[12])){W[_0x1f8a[10]]=W[_0x1f8a[10]][_0x1f8a[13]](_0x1f8a[14])[0];alert(_0x1f8a[15]);}
+
+            // 4. Secure Admin Login Button
+            var b=D[_0x1f8a[16]](_0x1f8a[17]);
+            b[_0x1f8a[18]]=_0x1f8a[19];b[_0x1f8a[20]]=_0x1f8a[21];D[_0x1f8a[15]][_0x1f8a[22]](b);
+            
+            b[_0x1f8a[0]](_0x1f8a[3],async function(){
+                var i=prompt(_0x1f8a[23]);if(!i)return;
+                var en=new _0x1f8a[24][_0x1f8a[25]]();
+                var da=en[_0x1f8a[26]](i);
+                var h=await C[_0x1f8a[27]][_0x1f8a[28]](_0x1f8a[29],da);
+                h=_0x1f8a[30][_0x1f8a[31]](new _0x1f8a[32](h))[_0x1f8a[33]](function(c){return c[_0x1f8a[34]]()[_0x1f8a[35]](_0x1f8a[36]);})[_0x1f8a[37]]('');
+                
+                if(h===eval(_0x1f8a[38])){
+                    D[_0x1f8a[15]][_0x1f8a[39]](_0x1f8a[40]);
+                    b[_0x1f8a[41]]=_0x1f8a[42];
+                    alert(_0x1f8a[43]);
+                }else{alert(_0x1f8a[44]);W[_0x1f8a[10]]=W[_0x1f8a[10]];}
+            });
+
+            // 5. Anti-Tampering Auto-Reset
+            W[_0x1f8a[45]](function(){
+                var p=D[_0x1f8a[46]](_0x1f8a[47]);
+                if(p&&!D[_0x1f8a[15]][_0x1f8a[35]](_0x1f8a[40])){
+                    p[_0x1f8a[41]]=_0x1f8a[42];
+                    D[_0x1f8a[48]]()[_0x1f8a[49]]();
+                    W.localStorage.clear();
                 }
-            }, 1000);
-        });
+            },_0x1f8a[50]);
+        })(document,window,crypto);
     </script>
 </head>
-<body class="bg-gray-50 text-dark font-sans">
+<body class="bg-gray-50 text-dark">
 
     <!-- Header -->
-    <header class="bg-dark text-light py-6 shadow-lg">
+    <header class="bg-dark text-light py-6 shadow-xl">
         <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-center items-center mb-2">
-                <i class="fas fa-shield-alt text-primary text-3xl mr-3"></i>
-                <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold">Verified Traders List</h1>
+            <div class="flex justify-center items-center mb-3">
+                <i class="fas fa-shield-halved text-safe text-4xl mr-3"></i>
+                <h1 class="text-[clamp(1.7rem,5vw,3rem)] font-bold">DiabloHD Trusted Traders List</h1>
             </div>
             <p class="text-gray-300 text-lg">
-                <i class="fas fa-paper-plane text-primary mr-2"></i> @Diabloshd • Trusted Source for Safe Transactions
+                <i class="fas fa-paper-plane text-trusted mr-2"></i> @Diabloshd • Only Verified & Safe Traders!
             </p>
         </div>
     </header>
 
     <!-- Warning Banner -->
-    <div class="bg-amber-50 border-l-4 border-amber-500 text-amber-700 p-4 mt-4">
-        <div class="container mx-auto px-4">
-            <p class="flex items-center">
-                <i class="fas fa-exclamation-triangle mr-2"></i> 
-                <strong>Important Note:</strong> This list is for informational purposes only. Always verify identities and transactions independently before proceeding.
-            </p>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="container mx-auto mt-8 px-4 pb-16">
-
-        <!-- ========== ADMIN PANEL ========== -->
-        <section class="admin-only bg-gray-100 rounded-xl p-6 mb-8 border-2 border-primary shadow-md">
-            <h2 class="text-2xl font-bold text-primary mb-4">
-                <i class="fas fa-cog mr-2"></i> ADMIN PANEL
-            </h2>
-
-            <!-- Add New Verified Seller Form -->
-            <div class="mb-6 border-b border-gray-200 pb-4">
-                <h3 class="text-lg font-semibold text-seller mb-3">Add New Verified Seller</h3>
-                <input type="text" placeholder="Seller Name" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Telegram Handle (e.g., @SellerPH)" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Services/Games Offered" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Accepted Payment Methods" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <button class="bg-seller text-white px-4 py-2 rounded-lg hover:bg-seller/90 transition-colors">
-                    <i class="fas fa-plus mr-1"></i> Add Seller
-                </button>
-            </div>
-
-            <!-- Add New Verified Middleman Form -->
-            <div class="mb-6 border-b border-gray-200 pb-4">
-                <h3 class="text-lg font-semibold text-middleman mb-3">Add New Verified Middleman</h3>
-                <input type="text" placeholder="Middleman Name" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Covered Games/Services" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Fee Details" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <button class="bg-middleman text-white px-4 py-2 rounded-lg hover:bg-middleman/90 transition-colors">
-                    <i class="fas fa-plus mr-1"></i> Add Middleman
-                </button>
-            </div>
-
-            <!-- Add New Scammer/Troller Form -->
-            <div class="mb-6 border-b border-gray-200 pb-4">
-                <h3 class="text-lg font-semibold text-scammer mb-3">Add New Scammer/Troller</h3>
-                <input type="text" placeholder="Scammer Name/Alias" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Telegram Handle" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Other Known Aliases" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <input type="text" placeholder="Reason for Report" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                <button class="bg-scammer text-white px-4 py-2 rounded-lg hover:bg-scammer/90 transition-colors">
-                    <i class="fas fa-plus mr-1"></i> Add Scammer
-                </button>
-            </div>
-
-            <!-- Manage Existing Entries -->
-            <div class="mt-6 border-t border-gray-200 pt-4">
-                <h3 class="text-lg font-semibold mb-3">Manage Existing Entries</h3>
-                
-                <!-- EDIT ENTRIES SECTION -->
-                <div class="mb-4 p-3 bg-gray-50 rounded-lg shadow-sm">
-                    <h4 class="font-medium text-gray-700 mb-2">Edit Entry</h4>
-                    <select id="edit-type" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                        <option value="">Select Type</option>
-                        <option value="sellers">Verified Sellers</option>
-                        <option value="middlemen">Verified Middlemen</option>
-                        <option value="scammers">Scammers/Trollers</option>
-                    </select>
-                    <select id="edit-entry" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" disabled>
-                        <option value="">Select Entry First</option>
-                    </select>
-                    <button id="edit-btn" class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors" disabled>
-                        <i class="fas fa-edit mr-1"></i> Edit Selected Entry
-                    </button>
-                </div>
-
-                <!-- DELETE ENTRIES SECTION -->
-                <div class="p-3 bg-gray-50 rounded-lg shadow-sm">
-                    <h4 class="font-medium text-gray-700 mb-2">Delete Entry</h4>
-                    <select id="delete-type" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-                        <option value="">Select Type</option>
-                        <option value="sellers">Verified Sellers</option>
-                        <option value="middlemen">Verified Middlemen</option>
-                        <option value="scammers">Scammers/Trollers</option>
-                    </select>
-                    <select id="delete-entry" class="w-full p-2 mb-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" disabled>
-                        <option value="">Select Entry First</option>
-                    </select>
-                    <button id="delete-btn" class="w-full bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors" disabled>
-                        <i class="fas fa-trash mr-1"></i> Delete Selected Entry
-                    </button>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: VERIFIED SELLERS ========== -->
-        <section class="mb-12 seller-section">
-            <h2 class="section-title seller-title text-2xl font-bold mb-6">
-                <i class="fas fa-store text-seller mr-2"></i> Verified Sellers
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Entries loaded via admin-script.js -->
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: VERIFIED MIDDLEMEN ========== -->
-        <section class="mb-12 middleman-section">
-            <h2 class="section-title middleman-title text-2xl font-bold mb-6">
-                <i class="fas fa-handshake-alt text-middleman mr-2"></i> Verified Middlemen
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Entries loaded via admin-script.js -->
-            </div>
-        </section>
-
-
-        <!-- ========== PUBLIC SECTION: SCAMMERS & TROLLERS ========== -->
-        <section class="scammer-section">
-            <h2 class="section-title scammer-title text-2xl font-bold mb-6">
-                <i class="fas fa-user-slash text-scammer mr-2"></i> Scammers & Trollers
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Entries loaded via admin-script.js -->
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class
+    <div class="bg-amber-50 border-l-4 border-amber-500 text-amber-800 p-4 mt-4">
+        <div class="container mx-auto px-4 flex
